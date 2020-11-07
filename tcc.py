@@ -9,7 +9,7 @@ TransicaoProbabilidades = [[0.05,0.02,0.93],[0.18,0.80,0.02],[0.05,0.02,0.93]]
 
 listaConsumo = list()
 listaConsumoAgua = list()
-NumDias = 365
+NumDias = 58400
 PrevisaoHoje = Estados[0]
 
 QtdAguaDisponivel = 9765000000000000000
@@ -37,8 +37,11 @@ def diminuirPopulacao(Populacao):
   
   return NovaPopulacao
 
-def consumirAgua(Populacao, QtdAguaDisponivel):
-  return QtdAguaDisponivel - (4297  * Populacao)
+def consumirAguaCarne(Populacao, QtdAguaDisponivel):
+  return QtdAguaDisponivel - (qtdAguaDiariaConsumidaPessoaCarnista  * Populacao)
+  
+def consumirAguaVeg(Populacao, QtdAguaDisponivel):
+  return QtdAguaDisponivel - (qtdAguaDiariaConsumidaPessoaVegetariana  * Populacao)
   
    
 for i in range(1, NumDias):
@@ -85,7 +88,7 @@ for i in range(1, NumDias):
       totalDiasCA += 1
   
   
-  QtdAguaDisponivel = consumirAgua(Populacao, QtdAguaDisponivel)
+  QtdAguaDisponivel = consumirAguaVeg(Populacao, QtdAguaDisponivel)
 
   listaConsumo.append(PrevisaoHoje)
   listaConsumoAgua.append(QtdAguaDisponivel)
@@ -95,6 +98,7 @@ for i in range(1, NumDias):
 print(totalDiasCA)
 print(totalDiasPA)
 print(totalDiasPD)
+print(QtdAguaDisponivel)
 
 #plt.plot(listaConsumo)
 #plt.show()
