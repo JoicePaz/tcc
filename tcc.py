@@ -110,6 +110,10 @@ print('Qtd Agua Disponivel Cenario Veg: ', QtdAguaDisponivelCenarioVeg)
 print('Consumo de Agua Cenario Carnista: ', 9765000000000000000 - QtdAguaDisponivelCenarioCarnista)
 print('Consumo de Agua Cenario Veg: ', 9765000000000000000 - QtdAguaDisponivelCenarioVeg)
 
+#plt.figure()
+#plt.hist(listaCenarios)
+#plt.show()
+
 plt.figure()
 plt.subplot(211)
 plt.plot(listaConsumoAguaCarnista)
