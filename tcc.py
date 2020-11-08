@@ -7,12 +7,15 @@ Estados = ['CA','PD','PA']
 TransicaoEstados = [['CACA','CAPD','CAPA'], ['PDCA','PDPD','PDPA'], ['PACA','PAPD','PAPA']]
 TransicaoProbabilidades = [[0.05,0.02,0.93],[0.18,0.80,0.02],[0.05,0.02,0.93]]
 
-listaConsumo = list()
-listaConsumoAgua = list()
+listaConsumoAguaCarnista = list()
+listaConsumoAguaVeg = list()
+
 NumDias = 58400
 PrevisaoHoje = Estados[0]
 
-QtdAguaDisponivel = 9765000000000000000
+QtdAguaDisponivelCenarioCarnista = 9765000000000000000
+QtdAguaDisponivelCenarioVeg = 9765000000000000000
+
 Populacao = 7600000000
 taxaAumentoPopulacao = 0.012
 
@@ -43,7 +46,6 @@ def consumirAguaCarne(Populacao, QtdAguaDisponivel):
 def consumirAguaVeg(Populacao, QtdAguaDisponivel):
   return QtdAguaDisponivel - (qtdAguaDiariaConsumidaPessoaVegetariana  * Populacao)
   
-   
 for i in range(1, NumDias):
   if PrevisaoHoje == 'CA':        
     Condicao = np.random.choice(TransicaoEstados[0], replace = True, p = TransicaoProbabilidades[0])
@@ -87,21 +89,20 @@ for i in range(1, NumDias):
       PrevisaoHoje = 'CA'
       totalDiasCA += 1
   
-  
-  QtdAguaDisponivel = consumirAguaVeg(Populacao, QtdAguaDisponivel)
+  QtdAguaDisponivelCenarioCarnista = consumirAguaCarne(Populacao, QtdAguaDisponivelCenarioCarnista)
+  QtdAguaDisponivelCenarioVeg = consumirAguaVeg(Populacao, QtdAguaDisponivelCenarioVeg)
 
-  listaConsumo.append(PrevisaoHoje)
-  listaConsumoAgua.append(QtdAguaDisponivel)
-  print(PrevisaoHoje)
+  listaConsumoAguaCarnista.append(QtdAguaDisponivelCenarioCarnista)
+  listaConsumoAguaVeg.append(QtdAguaDisponivelCenarioVeg)
 
+  # listaConsumo.append(PrevisaoHoje)
 
-print(totalDiasCA)
-print(totalDiasPA)
-print(totalDiasPD)
-print(QtdAguaDisponivel)
+print('Total dias CA: ', totalDiasCA)
+print('Total dias PA: ', totalDiasPA)
+print('Total dias PD: ', totalDiasPD)
 
-#plt.plot(listaConsumo)
-#plt.show()
+plt.plot(listaConsumoAguaCarnista)
+plt.show()
 
-plt.plot(listaConsumoAgua)
+plt.plot(listaConsumoAguaVeg)
 plt.show()
