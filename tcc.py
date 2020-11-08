@@ -2,7 +2,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('seaborn-deep')
 
 np.random.seed(3)
 Estados = ['CA','PD','PA']
