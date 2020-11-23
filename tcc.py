@@ -92,7 +92,6 @@ for i in range(1, NumDias):
     elif Condicao == 'PACA':
       PrevisaoHoje = 'CA'
       totalDiasCA += 1
-  
 
   if(i % 365 == 0):
     PessoasAumentoPorDia = totalPessoasPorDiaComTaxa(Populacao)
@@ -108,13 +107,13 @@ print('Total dias CA: ', totalDiasCA)
 print('Total dias PA: ', totalDiasPA)
 print('Total dias PD: ', totalDiasPD)
 
-print('Qtd Agua Disponivel Cenario Carnista: ', int(QtdAguaDisponivelCenarioCarnista))
+print('\n\nQtd Agua Disponivel Cenario Carnista: ', int(QtdAguaDisponivelCenarioCarnista))
 print('Qtd Agua Disponivel Cenario Veg: ', int(QtdAguaDisponivelCenarioVeg))
 
-print('Consumo de Agua Cenario Carnista: ', int(9765000000000000000 - QtdAguaDisponivelCenarioCarnista))
+print('\n\nConsumo de Agua Cenario Carnista: ', int(9765000000000000000 - QtdAguaDisponivelCenarioCarnista))
 print('Consumo de Agua Cenario Veg: ', int(9765000000000000000 - QtdAguaDisponivelCenarioVeg))
 
-print('Total populacao: ', int(Populacao))
+print('\n\nTotal populacao: ', int(Populacao))
 
 #plt.figure()
 #plt.hist(listaCenarios)
@@ -123,10 +122,10 @@ print('Total populacao: ', int(Populacao))
 plt.figure()
 plt.subplot(211)
 plt.plot(listaConsumoAguaCarnista)
-plt.ylabel('Consumo Cenario Carnista')
+plt.ylabel('Consumo Cenario Carne')
 
 plt.subplot(212)
 plt.plot(listaConsumoAguaVeg)
-plt.ylabel('Consumo Cenario Veg:')
+plt.ylabel('Consumo Cenario Veg')
 
 plt.show()
