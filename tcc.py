@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -13,14 +12,16 @@ listaConsumoAguaCarnista = list()
 listaConsumoAguaVeg = list()
 listaCenarios = list()
 
-NumDias = 58400 # 160 anos
+NumDias = 58400  #160 anos
 PrevisaoHoje = Estados[0]
 
 QtdAguaDisponivelCenarioCarnista = 9765000000000000000
 QtdAguaDisponivelCenarioVeg = 9765000000000000000
 
 Populacao = 7600000000
+            
 taxaAumentoPopulacao = 0.012
+PessoasAumentoPorDia = 0
 
 qtdAguaDiariaConsumidaPessoaVegetariana = 133
 qtdAguaDiariaConsumidaPessoaCarnista = 4297
@@ -29,19 +30,17 @@ totalDiasCA = 0
 totalDiasPD = 0
 totalDiasPA = 0
 
-def aumentarPopulacao(Populacao):
-  AumentoPessoasAnual = Populacao * taxaAumentoPopulacao
-  PessoasAumentoPorDia = int(AumentoPessoasAnual / NumDias)
-  NovaPopulacao = PessoasAumentoPorDia + Populacao
-  
-  return NovaPopulacao
+def aumentarPopulacao(PopulacaoTotal):
+  return PopulacaoTotal + PessoasAumentoPorDia 
 
-def diminuirPopulacao(Populacao):
-  AumentoPessoasAnual = Populacao * taxaAumentoPopulacao
-  PessoasAumentoPorDia = int(AumentoPessoasAnual / NumDias)
-  NovaPopulacao = PessoasAumentoPorDia - Populacao
+def diminuirPopulacao(PopulacaoTotal):
+  return PopulacaoTotal - PessoasAumentoPorDia
   
-  return NovaPopulacao
+def totalPessoasPorDiaComTaxa(Populacao):
+  AumentoPessoasAnual = Populacao * taxaAumentoPopulacao
+  PessoasAumentoPorDia = AumentoPessoasAnual / 365
+  
+  return PessoasAumentoPorDia
 
 def consumirAguaCarne(Populacao, QtdAguaDisponivel):
   return QtdAguaDisponivel - (qtdAguaDiariaConsumidaPessoaCarnista  * Populacao)
@@ -49,6 +48,8 @@ def consumirAguaCarne(Populacao, QtdAguaDisponivel):
 def consumirAguaVeg(Populacao, QtdAguaDisponivel):
   return QtdAguaDisponivel - (qtdAguaDiariaConsumidaPessoaVegetariana  * Populacao) 
    
+PessoasAumentoPorDia = totalPessoasPorDiaComTaxa(Populacao) #taxa do primeiro ano
+
 for i in range(1, NumDias):
   if PrevisaoHoje == 'CA':        
     Condicao = np.random.choice(TransicaoEstados[0], replace = True, p = TransicaoProbabilidades[0])
@@ -92,6 +93,10 @@ for i in range(1, NumDias):
       PrevisaoHoje = 'CA'
       totalDiasCA += 1
   
+
+  if(i % 365 == 0):
+    PessoasAumentoPorDia = totalPessoasPorDiaComTaxa(Populacao)
+
   QtdAguaDisponivelCenarioCarnista = consumirAguaCarne(Populacao, QtdAguaDisponivelCenarioCarnista)
   QtdAguaDisponivelCenarioVeg = consumirAguaVeg(Populacao, QtdAguaDisponivelCenarioVeg)
 
@@ -103,11 +108,13 @@ print('Total dias CA: ', totalDiasCA)
 print('Total dias PA: ', totalDiasPA)
 print('Total dias PD: ', totalDiasPD)
 
-print('Qtd Agua Disponivel Cenario Carnista: ', QtdAguaDisponivelCenarioCarnista)
-print('Qtd Agua Disponivel Cenario Veg: ', QtdAguaDisponivelCenarioVeg)
+print('Qtd Agua Disponivel Cenario Carnista: ', int(QtdAguaDisponivelCenarioCarnista))
+print('Qtd Agua Disponivel Cenario Veg: ', int(QtdAguaDisponivelCenarioVeg))
 
-print('Consumo de Agua Cenario Carnista: ', 9765000000000000000 - QtdAguaDisponivelCenarioCarnista)
-print('Consumo de Agua Cenario Veg: ', 9765000000000000000 - QtdAguaDisponivelCenarioVeg)
+print('Consumo de Agua Cenario Carnista: ', int(9765000000000000000 - QtdAguaDisponivelCenarioCarnista))
+print('Consumo de Agua Cenario Veg: ', int(9765000000000000000 - QtdAguaDisponivelCenarioVeg))
+
+print('Total populacao: ', int(Populacao))
 
 #plt.figure()
 #plt.hist(listaCenarios)
@@ -123,4 +130,3 @@ plt.plot(listaConsumoAguaVeg)
 plt.ylabel('Consumo Cenario Veg:')
 
 plt.show()
-
